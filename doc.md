@@ -34,3 +34,7 @@ print("Status code:", response.StatusCode)
 print("Body:", response.Body)
 
 ```
+
+## Kry.HttpGet
+
+
