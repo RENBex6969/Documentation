@@ -37,4 +37,6 @@ print("Body:", response.Body)
 
 ## Kry.HttpGet
 
-
+```lua
+Kry.HttpGet("url") -- basically game.HttpGet but with AHS
+```
