@@ -3,7 +3,6 @@
 Getting the function of AHS
 
 ```lua
--- // This is different than given when bought
 local Kry = loadstring(game:HttpGet(""))()
 ```
 
