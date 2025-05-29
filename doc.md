@@ -44,6 +44,6 @@ Kry.HttpGet("url") -- basically game.HttpGet but with AHS
 ## Kry.getVersion
 
 Returns the current version of AHS
-```
+```lua
 print(Kry.getVersion())
 ```
