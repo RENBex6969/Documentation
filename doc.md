@@ -40,3 +40,10 @@ print("Body:", response.Body)
 ```lua
 Kry.HttpGet("url") -- basically game.HttpGet but with AHS
 ```
+
+## Kry.getVersion
+
+Returns the current version of AHS
+```
+print(Kry.getVersion())
+```
