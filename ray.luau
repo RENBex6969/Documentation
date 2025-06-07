@@ -2574,29 +2574,28 @@ function RayfieldLibrary:CreateWindow(Settings)
 		 function Tab:CreateVideo(VideoSettings)
 	local VideoValue = {}
 
-	local VideoFrame = Elements.Template.Paragraph:Clone() -- reuse Paragraph template
+	local VideoFrame = Elements.Template.Paragraph:Clone()
 	VideoFrame.Title.Text = VideoSettings.Title or "Video"
 	VideoFrame.Visible = true
 	VideoFrame.Parent = TabPage
 
-	-- Initial transparency for fade-in effect
-	VideoFrame.BackgroundTransparency = 1
-	VideoFrame.UIStroke.Transparency = 1
-	VideoFrame.Title.TextTransparency = 1
-	VideoFrame.Content.TextTransparency = 1
-	VideoFrame.Content.Text = "" -- remove default text
+	-- Instant visibility
+	VideoFrame.BackgroundTransparency = 0
+	VideoFrame.UIStroke.Transparency = 0
+	VideoFrame.Title.TextTransparency = 0
+	VideoFrame.Content.TextTransparency = 1 -- hide text
+	VideoFrame.Content.Text = ""
 
-	-- Theme styling
+	-- Apply theme
 	VideoFrame.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
 	VideoFrame.UIStroke.Color = SelectedTheme.SecondaryElementStroke
 
-	-- Create VideoFrame inside Content
+	-- Create and insert video
 	local Video = Instance.new("VideoFrame")
 	Video.Name = "EmbeddedVideo"
 	Video.Size = UDim2.new(1, 0, 1, 0)
 	Video.Position = UDim2.new(0, 0, 0, 0)
 	Video.BackgroundTransparency = 1
-	Video.VideoTransparency = 1
 	Video.Video = getsynasset(VideoSettings.File or "video.mp4")
 	Video.Looped = VideoSettings.Looped ~= false
 	Video.Volume = VideoSettings.Volume or 1
@@ -2604,13 +2603,6 @@ function RayfieldLibrary:CreateWindow(Settings)
 	Video.Parent = VideoFrame.Content
 	Video:Play()
 
-	-- Fade-in animation
-	TweenService:Create(VideoFrame, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {BackgroundTransparency = 0}):Play()
-	TweenService:Create(VideoFrame.UIStroke, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
-	TweenService:Create(VideoFrame.Title, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {TextTransparency = 0}):Play()
-	TweenService:Create(Video, TweenInfo.new(0.7, Enum.EasingStyle.Exponential), {VideoTransparency = 0}):Play()
-
-	-- Allow dynamic updates
 	function VideoValue:Set(NewSettings)
 		if NewSettings.Title then
 			VideoFrame.Title.Text = NewSettings.Title
@@ -2621,8 +2613,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 		end
 	end
 
-	-- Theme reaction
-	Rayfield.Main:GetPropertyChangedSignal('BackgroundColor3'):Connect(function()
+	Rayfield.Main:GetPropertyChangedSignal("BackgroundColor3"):Connect(function()
 		VideoFrame.BackgroundColor3 = SelectedTheme.SecondaryElementBackground
 		VideoFrame.UIStroke.Color = SelectedTheme.SecondaryElementStroke
 	end)
